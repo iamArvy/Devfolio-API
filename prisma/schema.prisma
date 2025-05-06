@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user_contacts {
+  id         Int      @id @default(autoincrement())
+  url        String?
+  icon       String?
+  name       String
+  value      String
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  user_id    String
+
+  @@unique([name, user_id])
+}
+
+model user_jobs {
+  id            Int             @id @default(autoincrement())
+  role          String          @unique
+  description   String?
+  value         String?
+  created_at    DateTime        @default(now())
+  end_date      DateTime?
+  start_date    DateTime?
+  updated_at    DateTime        @default(now())
+  user_id       String
+  user_projects user_projects[]
+  user_stacks   user_stacks[]
+
+  @@unique([role, user_id])
+}
+
+model user_profiles {
+  id              String   @id
+  bio             String?
+  first_name      String
+  last_name       String
+  profile_picture String?
+  website         String?
+  user_id         String   @unique
+  created_at      DateTime @default(now())
+  updated_at      DateTime @default(now())
+}
+
+model user_projects {
+  id          Int           @id @default(autoincrement())
+  name        String
+  image       String?
+  description String
+  repo        String?
+  created_at  DateTime      @default(now())
+  job_id      Int?
+  updated_at  DateTime      @default(now())
+  user_id     String
+  url         String?
+  user_jobs   user_jobs?    @relation(fields: [job_id], references: [id])
+  user_stacks user_stacks[] @relation("ProjectToStack")
+
+  @@unique([name, user_id])
+}
+
+model user_socials {
+  id         Int      @id @default(autoincrement())
+  url        String
+  icon       String?
+  name       String
+  value      String
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  user_id    String
+
+  @@unique([name, user_id])
+}
+
+model user_stacks {
+  id            Int             @id @default(autoincrement())
+  name          String
+  icon          String?
+  created_at    DateTime        @default(now())
+  job_id        Int?
+  updated_at    DateTime        @default(now())
+  user_id       String
+  user_jobs     user_jobs?      @relation(fields: [job_id], references: [id])
+  user_projects user_projects[] @relation("ProjectToStack")
+
+  @@unique([name, user_id])
+}
