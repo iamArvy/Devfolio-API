@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Req } from '@nestjs/common';
 import { ExperienceService } from './experience.service';
-import { experiences } from '@prisma/client';
-import { ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { ExperienceResponse } from './experience.response'; // update path as needed
 
 @ApiTags('Experiences')
 @ApiSecurity('client-id')
@@ -10,16 +10,15 @@ import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 export class ExperienceController {
   constructor(private readonly experienceService: ExperienceService) {}
 
-  @Get('experiences')
-  async getExperiences(@Req() req: { user: string }): Promise<experiences[]> {
+  @ApiOkResponse({ type: [ExperienceResponse] })
+  @Get('')
+  async getExperiences(@Req() req: { user: number }) {
     return await this.experienceService.user_experiences(req.user);
   }
 
-  @Get('experiences/:id')
-  async getExperience(
-    @Req() req: { user: string },
-    @Param('id') id: string,
-  ): Promise<experiences> {
+  @ApiOkResponse({ type: ExperienceResponse })
+  @Get(':id')
+  async getExperience(@Req() req: { user: number }, @Param('id') id: string) {
     return await this.experienceService.user_experience(req.user, id);
   }
 }

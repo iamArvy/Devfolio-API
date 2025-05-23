@@ -53,7 +53,7 @@ describe('SocialService', () => {
     it('should throw NotFoundException if not found', async () => {
       jest.spyOn(prisma.socials, 'findUnique').mockResolvedValueOnce(null);
 
-      await expect(service.user_social('wid', 'wid')).rejects.toThrow(
+      await expect(service.user_social(2, 'wid')).rejects.toThrow(
         NotFoundException,
       );
     });

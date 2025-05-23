@@ -11,14 +11,14 @@ export class CertificationResolver {
   constructor(private readonly certificationService: CertificationService) {}
   @Query(() => [CertificationEntity], { name: 'certifications' })
   async getCertifications(
-    @Context() req: { user: string },
+    @Context() req: { user: number },
   ): Promise<certifications[]> {
     return await this.certificationService.user_certifications(req.user);
   }
 
   @Query(() => CertificationEntity, { name: 'certification' })
   async getCertification(
-    @Context() req: { user: string },
+    @Context() req: { user: number },
     @Args('id') id: string,
   ): Promise<certifications> {
     return await this.certificationService.user_certification(req.user, id);

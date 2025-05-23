@@ -55,9 +55,9 @@ describe('CertificationService', () => {
         .spyOn(prisma.certifications, 'findUnique')
         .mockResolvedValueOnce(null);
 
-      await expect(
-        service.user_certification('wronguid', 'wrongcid'),
-      ).rejects.toThrow(NotFoundException);
+      await expect(service.user_certification(2, 'wrongcid')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 });

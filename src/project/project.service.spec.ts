@@ -53,7 +53,7 @@ describe('ProjectService', () => {
     it('should throw NotFoundException if not found', async () => {
       jest.spyOn(prisma.projects, 'findUnique').mockResolvedValueOnce(null);
 
-      await expect(service.user_project('wid', 'wid')).rejects.toThrow(
+      await expect(service.user_project(2, 'wid')).rejects.toThrow(
         NotFoundException,
       );
     });

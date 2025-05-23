@@ -11,7 +11,7 @@ export class ProfileResolver {
   constructor(private readonly profileService: ProfileService) {}
 
   @Query(() => ProfileEntity, { name: 'profile' })
-  async getProfile(@Context() req: { user: string }): Promise<profiles> {
+  async getProfile(@Context() req: { user: number }): Promise<profiles> {
     return await this.profileService.user_profile(req.user);
   }
 }

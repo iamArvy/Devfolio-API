@@ -25,8 +25,8 @@ export class ProfileEntity {
   @Field(() => String, { description: 'Geographic location of the user' })
   location: string;
 
-  @Field(() => String, { description: 'ID of the associated user' })
-  user_id: string;
+  @Field(() => Int, { description: 'ID of the associated user' })
+  user_id: number;
 
   @Field(() => Date, {
     nullable: true,

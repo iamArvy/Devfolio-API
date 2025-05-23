@@ -1,6 +1,6 @@
 export const mockData = {
   id: 'cid',
-  user_id: 'uid',
+  user_id: 1,
 };
 
 export const mockArray = [mockData];

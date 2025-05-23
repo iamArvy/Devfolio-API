@@ -12,8 +12,8 @@ export class ExperienceEntity {
   })
   location: string;
 
-  @Field(() => String, { description: 'ID of the associated user' })
-  user_id: string;
+  @Field(() => Int, { description: 'ID of the associated user' })
+  user_id: number;
 
   @Field(() => String, { description: 'Role or position held' })
   role: string;
@@ -25,12 +25,12 @@ export class ExperienceEntity {
   highlights: string[];
 
   @Field(() => String, {
-    description: 'Start date of the experience (ISO string)',
+    description: 'Start date of the experience',
   })
   start_date: string;
 
   @Field(() => String, {
-    description: 'End date of the experience (ISO string)',
+    description: 'End date of the experience',
   })
   end_date: string;
 

@@ -22,8 +22,8 @@ export class StackEntity {
   })
   icon: string | null;
 
-  @Field(() => String, { description: 'ID of the associated user' })
-  user_id: string;
+  @Field(() => Int, { description: 'ID of the associated user' })
+  user_id: number;
 
   @Field(() => Date, {
     nullable: true,

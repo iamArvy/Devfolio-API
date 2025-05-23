@@ -40,8 +40,8 @@ export class ProjectEntity {
   })
   tags: string[];
 
-  @Field(() => String, { description: 'ID of the associated user' })
-  user_id: string;
+  @Field(() => Int, { description: 'ID of the associated user' })
+  user_id: number;
 
   @Field(() => Date, {
     nullable: true,

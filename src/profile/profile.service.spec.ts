@@ -41,9 +41,7 @@ describe('ProfileService', () => {
 
     it('should throw NotFoundException if not found', async () => {
       jest.spyOn(prisma.profiles, 'findUnique').mockResolvedValueOnce(null);
-      await expect(service.user_profile('wid')).rejects.toThrow(
-        NotFoundException,
-      );
+      await expect(service.user_profile(2)).rejects.toThrow(NotFoundException);
     });
   });
 });

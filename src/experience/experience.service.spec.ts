@@ -53,9 +53,9 @@ describe('ExperienceService', () => {
     it('should throw NotFoundException if not found', async () => {
       jest.spyOn(prisma.experiences, 'findUnique').mockResolvedValueOnce(null);
 
-      await expect(
-        service.user_experience('wronguid', 'wrongeid'),
-      ).rejects.toThrow(NotFoundException);
+      await expect(service.user_experience(2, 'wrongid')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 });

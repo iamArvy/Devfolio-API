@@ -11,13 +11,13 @@ export class ProjectResolver {
   constructor(private readonly projectService: ProjectService) {}
 
   @Query(() => [ProjectEntity], { name: 'projects' })
-  async getProjects(@Context() req: { user: string }): Promise<projects[]> {
+  async getProjects(@Context() req: { user: number }): Promise<projects[]> {
     return await this.projectService.user_projects(req.user);
   }
 
   @Query(() => ProjectEntity, { name: 'project' })
   async getProject(
-    @Context() req: { user: string },
+    @Context() req: { user: number },
     @Args('id') id: string,
   ): Promise<projects> {
     return await this.projectService.user_project(req.user, id);

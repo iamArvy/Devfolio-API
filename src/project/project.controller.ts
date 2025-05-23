@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Req } from '@nestjs/common';
 import { ProjectService } from './project.service';
-import { projects } from '@prisma/client';
-import { ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { ProjectResponse } from './project.response'; // Adjust path as needed
 
 @ApiTags('Projects')
 @ApiSecurity('client-id')
@@ -10,16 +10,15 @@ import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
-  @Get('projects')
-  async getProjects(@Req() req: { user: string }): Promise<projects[]> {
+  @ApiOkResponse({ type: [ProjectResponse] })
+  @Get('')
+  async getProjects(@Req() req: { user: number }) {
     return await this.projectService.user_projects(req.user);
   }
 
-  @Get('projects/:id')
-  async getProject(
-    @Req() req: { user: string },
-    @Param('id') id: string,
-  ): Promise<projects> {
+  @ApiOkResponse({ type: ProjectResponse })
+  @Get(':id')
+  async getProject(@Req() req: { user: number }, @Param('id') id: string) {
     return await this.projectService.user_project(req.user, id);
   }
 }

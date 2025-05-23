@@ -53,7 +53,7 @@ describe('StackService', () => {
     it('should throw NotFoundException if not found', async () => {
       jest.spyOn(prisma.stacks, 'findUnique').mockResolvedValueOnce(null);
 
-      await expect(service.user_stack('wid', 'wid')).rejects.toThrow(
+      await expect(service.user_stack(2, 'wid')).rejects.toThrow(
         NotFoundException,
       );
     });

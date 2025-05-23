@@ -11,13 +11,13 @@ export class SocialResolver {
   constructor(private readonly socialService: SocialService) {}
 
   @Query(() => [SocialEntity], { name: 'socials' })
-  async getSocials(@Context() req: { user: string }): Promise<socials[]> {
+  async getSocials(@Context() req: { user: number }): Promise<socials[]> {
     return await this.socialService.user_socials(req.user);
   }
 
   @Query(() => SocialEntity, { name: 'social' })
   async getSocial(
-    @Context() req: { user: string },
+    @Context() req: { user: number },
     @Args('id') id: string,
   ): Promise<socials> {
     return await this.socialService.user_social(req.user, id);

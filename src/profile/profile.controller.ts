@@ -1,8 +1,8 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
-import { profiles } from '@prisma/client';
 import { ProfileService } from './profile.service';
-import { ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { RestAuthGuard } from '../guards/rest-auth.guard';
+import { ProfileResponse } from './profile.response'; // adjust path as needed
 
 @ApiTags('Profiles')
 @ApiSecurity('client-id')
@@ -12,8 +12,9 @@ import { RestAuthGuard } from '../guards/rest-auth.guard';
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
-  @Get('profile')
-  async getProfile(@Req() req: { user: string }): Promise<profiles> {
+  @ApiOkResponse({ type: ProfileResponse })
+  @Get('')
+  async getProfile(@Req() req: { user: number }): Promise<ProfileResponse> {
     return await this.profileService.user_profile(req.user);
   }
 }
