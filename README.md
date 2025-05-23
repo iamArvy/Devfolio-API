@@ -1,4 +1,4 @@
-# Chat Service
+# Devfolio API Client
 
 The **Devfolio API Client** is an API client built with **NestJS**, supporting both **GraphQL** and **REST API** interfaces. It allows users to interact with the [Devfolio](https://github.com/iamArvy/devfolio.git/) Application via API and integrate it with their frontend application. It uses **Swagger** and **Apollo Playground** for API documentation and testing.
 
