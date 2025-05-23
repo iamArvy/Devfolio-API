@@ -9,6 +9,7 @@ import { ExperienceModule } from './experience/experience.module';
 import { CertificationModule } from './certification/certification.module';
 import { SocialModule } from './social/social.module';
 import { StackModule } from './stack/stack.module';
+import { ClientAuthStrategy } from './strategies/custom.strategy';
 
 @Module({
   imports: [
@@ -26,6 +27,6 @@ import { StackModule } from './stack/stack.module';
     SocialModule,
     StackModule,
   ],
-  providers: [AppService],
+  providers: [AppService, ClientAuthStrategy],
 })
 export class AppModule {}

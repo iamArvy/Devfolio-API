@@ -1,24 +1,24 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { stacks } from '@prisma/client';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class StackService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async user_stacks(id: bigint): Promise<stacks[]> {
+  user_stacks = async (id: number): Promise<stacks[]> => {
     const stacks = await this.prisma.stacks.findMany({
       where: { user_id: id },
     });
 
     return stacks;
-  }
+  };
 
-  async user_stack(uid: bigint, sid: bigint): Promise<stacks> {
+  user_stack = async (uid: number, sid: number): Promise<stacks> => {
     const stack = await this.prisma.stacks.findUnique({
       where: { user_id: uid, id: sid },
     });
-    if (!stack) throw new NotFoundException('Profile not found');
+    if (!stack) throw new NotFoundException('Stack not found');
     return stack;
-  }
+  };
 }

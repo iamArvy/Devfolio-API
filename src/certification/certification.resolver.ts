@@ -2,7 +2,7 @@ import { Args, Context, Query, Resolver } from '@nestjs/graphql';
 import { certifications } from '@prisma/client';
 import { CertificationEntity } from './certification.entity';
 import { CertificationService } from './certification.service';
-import { GqlAuthGuard } from 'src/guards/gql-auth.guard';
+import { GqlAuthGuard } from '../guards/gql-auth.guard';
 import { UseGuards } from '@nestjs/common';
 
 @UseGuards(GqlAuthGuard)
@@ -18,8 +18,8 @@ export class CertificationResolver {
 
   @Query(() => CertificationEntity, { name: 'certification' })
   async getCertification(
-    @Context() req: { user: bigint },
-    @Args('id') id: bigint,
+    @Context() req: { user: number },
+    @Args('id') id: number,
   ): Promise<certifications> {
     return await this.certificationService.user_certification(req.user, id);
   }

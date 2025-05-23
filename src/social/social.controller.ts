@@ -10,14 +10,14 @@ import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 export class SocialController {
   constructor(private readonly socialService: SocialService) {}
   @Get('socials')
-  async getSocials(@Req() req: { user: bigint }): Promise<socials[]> {
+  async getSocials(@Req() req: { user: number }): Promise<socials[]> {
     return await this.socialService.user_socials(req.user);
   }
 
   @Get('socials/:id')
   async getSocial(
-    @Req() req: { user: bigint },
-    @Param('id') id: bigint,
+    @Req() req: { user: number },
+    @Param('id') id: number,
   ): Promise<socials> {
     return await this.socialService.user_social(req.user, id);
   }

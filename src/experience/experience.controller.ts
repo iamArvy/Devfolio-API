@@ -11,14 +11,14 @@ export class ExperienceController {
   constructor(private readonly experienceService: ExperienceService) {}
 
   @Get('experiences')
-  async getExperiences(@Req() req: { user: bigint }): Promise<experiences[]> {
+  async getExperiences(@Req() req: { user: number }): Promise<experiences[]> {
     return await this.experienceService.user_experiences(req.user);
   }
 
   @Get('experiences/:id')
   async getExperience(
-    @Req() req: { user: bigint },
-    @Param('id') id: bigint,
+    @Req() req: { user: number },
+    @Param('id') id: number,
   ): Promise<experiences> {
     return await this.experienceService.user_experience(req.user, id);
   }

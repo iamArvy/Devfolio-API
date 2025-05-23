@@ -1,17 +1,5 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
-import {
-  certifications,
-  experiences,
-  profiles,
-  projects,
-  socials,
-  stacks,
-} from '@prisma/client';
 
 @Injectable()
 export class AppService {
