@@ -3,15 +3,15 @@ import { SocialResolver } from './social.resolver';
 import { SocialService } from './social.service';
 import { GqlAuthGuard } from '../guards/gql-auth.guard';
 import { Reflector } from '@nestjs/core';
+import { mockArray, mockData, id, uid, req } from '../data';
 
 describe('SocialResolver', () => {
   let resolver: SocialResolver;
   let service: SocialService;
 
-  const mockData = [{ id: 1 }];
   const mockService = {
-    user_socials: jest.fn().mockResolvedValue(mockData),
-    user_social: jest.fn().mockResolvedValue(mockData[0]),
+    user_socials: jest.fn().mockResolvedValue(mockArray),
+    user_social: jest.fn().mockResolvedValue(mockData),
   };
 
   beforeEach(async () => {
@@ -31,16 +31,14 @@ describe('SocialResolver', () => {
   });
 
   it('should return all socials for a user', async () => {
-    const context = { user: 1 };
-    const result = await resolver.getSocials(context);
-    expect(service.user_socials).toHaveBeenCalledWith(1);
-    expect(result).toEqual(mockData);
+    const result = await resolver.getSocials(req);
+    expect(service.user_socials).toHaveBeenCalledWith(uid);
+    expect(result).toEqual(mockArray);
   });
 
   it('should return one social for a user', async () => {
-    const context = { user: 1 };
-    const result = await resolver.getSocial(context, 1);
-    expect(service.user_social).toHaveBeenCalledWith(1, 1);
-    expect(result).toEqual(mockData[0]);
+    const result = await resolver.getSocial(req, id);
+    expect(service.user_social).toHaveBeenCalledWith(uid, id);
+    expect(result).toEqual(mockData);
   });
 });

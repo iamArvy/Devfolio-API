@@ -2,10 +2,10 @@ import { ObjectType, Field, Int } from '@nestjs/graphql';
 
 @ObjectType()
 export class ProfileEntity {
-  @Field(() => Int, {
+  @Field(() => String, {
     description: 'Unique identifier for the profile',
   })
-  id: number;
+  id: string;
 
   @Field(() => String, { description: 'Full name of the user' })
   fullname: string;
@@ -16,7 +16,7 @@ export class ProfileEntity {
   @Field(() => String, { description: 'Short biography of the user' })
   bio: string;
 
-  @Field(() => String, { description: 'Phone number of the user' })
+  @Field(() => String, { description: 'Phone string of the user' })
   phone: string;
 
   @Field(() => String, { description: 'Email address of the user' })
@@ -25,8 +25,8 @@ export class ProfileEntity {
   @Field(() => String, { description: 'Geographic location of the user' })
   location: string;
 
-  @Field(() => Int, { description: 'ID of the associated user' })
-  user_id: number;
+  @Field(() => String, { description: 'ID of the associated user' })
+  user_id: string;
 
   @Field(() => Date, {
     nullable: true,

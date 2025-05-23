@@ -1,11 +1,11 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
 
 @ObjectType()
 export class CertificationEntity {
-  @Field(() => Int, {
+  @Field(() => String, {
     description: 'Unique identifier for the certification',
   })
-  id: number;
+  id: string;
 
   @Field(() => String, { description: 'Name of the certification' })
   name: string;
@@ -26,8 +26,8 @@ export class CertificationEntity {
   })
   date_acquired: string;
 
-  @Field(() => Int, { description: 'ID of the associated user' })
-  user_id: number;
+  @Field(() => String, { description: 'ID of the associated user' })
+  user_id: string;
 
   @Field(() => String, {
     nullable: true,

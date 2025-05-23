@@ -11,14 +11,14 @@ export class StackResolver {
   constructor(private readonly stackService: StackService) {}
 
   @Query(() => [StackEntity], { name: 'stacks' })
-  async getStacks(@Context() req: { user: number }): Promise<stacks[]> {
+  async getStacks(@Context() req: { user: string }): Promise<stacks[]> {
     return await this.stackService.user_stacks(req.user);
   }
 
   @Query(() => StackEntity, { name: 'stack' })
   async getStack(
-    @Context() req: { user: number },
-    @Args('id') id: number,
+    @Context() req: { user: string },
+    @Args('id') id: string,
   ): Promise<stacks> {
     return await this.stackService.user_stack(req.user, id);
   }

@@ -2,17 +2,16 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { SocialService } from './social.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { NotFoundException } from '@nestjs/common';
+import { mockArray, mockData, id, uid, req } from '../data';
 
 describe('SocialService', () => {
   let service: SocialService;
   let prisma: PrismaService;
 
-  const mockData = [{ id: 1 }];
-
   const mockPrismaService = {
     socials: {
-      findMany: jest.fn().mockResolvedValue(mockData),
-      findUnique: jest.fn().mockResolvedValue(mockData[0]),
+      findMany: jest.fn().mockResolvedValue(mockArray),
+      findUnique: jest.fn().mockResolvedValue(mockData),
     },
   };
 
@@ -34,27 +33,27 @@ describe('SocialService', () => {
 
   describe('user_socials', () => {
     it('should return all socials for a user', async () => {
-      const result = await service.user_socials(1);
+      const result = await service.user_socials(uid);
       expect(prisma.socials.findMany).toHaveBeenCalledWith({
-        where: { user_id: 1 },
+        where: { user_id: uid },
       });
-      expect(result).toEqual(mockData);
+      expect(result).toEqual(mockArray);
     });
   });
 
   describe('user_social', () => {
     it('should return one social', async () => {
-      const result = await service.user_social(1, 1);
+      const result = await service.user_social(uid, id);
       expect(prisma.socials.findUnique).toHaveBeenCalledWith({
-        where: { user_id: 1, id: 1 },
+        where: mockData,
       });
-      expect(result).toEqual(mockData[0]);
+      expect(result).toEqual(mockData);
     });
 
     it('should throw NotFoundException if not found', async () => {
       jest.spyOn(prisma.socials, 'findUnique').mockResolvedValueOnce(null);
 
-      await expect(service.user_social(1, 2)).rejects.toThrow(
+      await expect(service.user_social('wid', 'wid')).rejects.toThrow(
         NotFoundException,
       );
     });

@@ -3,20 +3,15 @@ import { CertificationResolver } from './certification.resolver';
 import { CertificationService } from './certification.service';
 import { GqlAuthGuard } from '../guards/gql-auth.guard';
 import { Reflector } from '@nestjs/core';
+import { mockArray, mockData, uid, req, id } from '../data';
 
 describe('CertificationResolver', () => {
   let resolver: CertificationResolver;
   let service: CertificationService;
 
-  const mockData = [
-    {
-      id: 1,
-    },
-  ];
-
   const mockCertificationService = {
-    user_certifications: jest.fn().mockResolvedValue(mockData),
-    user_certification: jest.fn().mockResolvedValue(mockData[0]),
+    user_certifications: jest.fn().mockResolvedValue(mockArray),
+    user_certification: jest.fn().mockResolvedValue(mockData),
   };
 
   beforeEach(async () => {
@@ -43,19 +38,17 @@ describe('CertificationResolver', () => {
 
   describe('getCertifications', () => {
     it('should return all certifications for a user', async () => {
-      const req = { user: 1 };
       const result = await resolver.getCertifications(req);
-      expect(service.user_certifications).toHaveBeenCalledWith(1);
-      expect(result).toEqual(mockData);
+      expect(service.user_certifications).toHaveBeenCalledWith(uid);
+      expect(result).toEqual(mockArray);
     });
   });
 
   describe('getCertification', () => {
     it('should return a specific certification for a user', async () => {
-      const context = { user: 1 };
-      const result = await resolver.getCertification(context, 1);
-      expect(service.user_certification).toHaveBeenCalledWith(1, 1);
-      expect(result).toEqual(mockData[0]);
+      const result = await resolver.getCertification(req, id);
+      expect(service.user_certification).toHaveBeenCalledWith(uid, id);
+      expect(result).toEqual(mockData);
     });
   });
 });

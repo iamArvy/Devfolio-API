@@ -14,15 +14,15 @@ export class CertificationController {
 
   @Get('certifications')
   async getCertifications(
-    @Req() req: { user: number },
+    @Req() req: { user: string },
   ): Promise<certifications[]> {
     return await this.certificationService.user_certifications(req.user);
   }
 
   @Get('certifications/:id')
   async getCertification(
-    @Req() req: { user: number },
-    @Param('id') id: number,
+    @Req() req: { user: string },
+    @Param('id') id: string,
   ): Promise<certifications> {
     return await this.certificationService.user_certification(req.user, id);
   }

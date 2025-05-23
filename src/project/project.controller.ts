@@ -11,14 +11,14 @@ export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
   @Get('projects')
-  async getProjects(@Req() req: { user: number }): Promise<projects[]> {
+  async getProjects(@Req() req: { user: string }): Promise<projects[]> {
     return await this.projectService.user_projects(req.user);
   }
 
   @Get('projects/:id')
   async getProject(
-    @Req() req: { user: number },
-    @Param('id') id: number,
+    @Req() req: { user: string },
+    @Param('id') id: string,
   ): Promise<projects> {
     return await this.projectService.user_project(req.user, id);
   }

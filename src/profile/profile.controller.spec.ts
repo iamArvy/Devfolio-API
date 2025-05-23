@@ -1,17 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProfileController } from './profile.controller';
 import { ProfileService } from './profile.service';
+import { mockData, uid } from '../data';
 
 describe('ProfileController', () => {
   let controller: ProfileController;
   let service: ProfileService;
 
-  const mockProfile = {
-    id: 1,
-  };
-
   const mockService = {
-    user_profile: jest.fn().mockResolvedValue(mockProfile),
+    user_profile: jest.fn().mockResolvedValue(mockData),
   };
 
   beforeEach(async () => {
@@ -29,9 +26,9 @@ describe('ProfileController', () => {
   });
 
   it('should return user profile', async () => {
-    const req = { user: 1 };
+    const req = { user: uid };
     const result = await controller.getProfile(req);
-    expect(service.user_profile).toHaveBeenCalledWith(1);
-    expect(result).toEqual(mockProfile);
+    expect(service.user_profile).toHaveBeenCalledWith(uid);
+    expect(result).toEqual(mockData);
   });
 });

@@ -2,17 +2,16 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ExperienceService } from './experience.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { NotFoundException } from '@nestjs/common';
+import { mockArray, mockData, id, uid } from '../data';
 
 describe('ExperienceService', () => {
   let service: ExperienceService;
   let prisma: PrismaService;
 
-  const mockData = [{ id: 1 }];
-
   const mockPrismaService = {
     experiences: {
-      findMany: jest.fn().mockResolvedValue(mockData),
-      findUnique: jest.fn().mockResolvedValue(mockData[0]),
+      findMany: jest.fn().mockResolvedValue(mockArray),
+      findUnique: jest.fn().mockResolvedValue(mockData),
     },
   };
 
@@ -34,29 +33,29 @@ describe('ExperienceService', () => {
 
   describe('user_experiences', () => {
     it('should return all experiences for a user', async () => {
-      const result = await service.user_experiences(1);
+      const result = await service.user_experiences(uid);
       expect(prisma.experiences.findMany).toHaveBeenCalledWith({
-        where: { user_id: 1 },
+        where: { user_id: uid },
       });
-      expect(result).toEqual(mockData);
+      expect(result).toEqual(mockArray);
     });
   });
 
   describe('user_experience', () => {
     it('should return one experience', async () => {
-      const result = await service.user_experience(1, 1);
+      const result = await service.user_experience(uid, id);
       expect(prisma.experiences.findUnique).toHaveBeenCalledWith({
-        where: { user_id: 1, id: 1 },
+        where: mockData,
       });
-      expect(result).toEqual(mockData[0]);
+      expect(result).toEqual(mockData);
     });
 
     it('should throw NotFoundException if not found', async () => {
       jest.spyOn(prisma.experiences, 'findUnique').mockResolvedValueOnce(null);
 
-      await expect(service.user_experience(1, 2)).rejects.toThrow(
-        NotFoundException,
-      );
+      await expect(
+        service.user_experience('wronguid', 'wrongeid'),
+      ).rejects.toThrow(NotFoundException);
     });
   });
 });

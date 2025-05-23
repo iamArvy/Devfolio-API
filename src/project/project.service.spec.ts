@@ -2,17 +2,16 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ProjectService } from './project.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { NotFoundException } from '@nestjs/common';
+import { mockArray, mockData, id, uid } from '../data';
 
 describe('ProjectService', () => {
   let service: ProjectService;
   let prisma: PrismaService;
 
-  const mockData = [{ id: 1 }];
-
   const mockPrismaService = {
     projects: {
-      findMany: jest.fn().mockResolvedValue(mockData),
-      findUnique: jest.fn().mockResolvedValue(mockData[0]),
+      findMany: jest.fn().mockResolvedValue(mockArray),
+      findUnique: jest.fn().mockResolvedValue(mockData),
     },
   };
 
@@ -34,27 +33,27 @@ describe('ProjectService', () => {
 
   describe('user_projects', () => {
     it('should return all projects for a user', async () => {
-      const result = await service.user_projects(1);
+      const result = await service.user_projects(uid);
       expect(prisma.projects.findMany).toHaveBeenCalledWith({
-        where: { user_id: 1 },
+        where: { user_id: uid },
       });
-      expect(result).toEqual(mockData);
+      expect(result).toEqual(mockArray);
     });
   });
 
   describe('user_project', () => {
     it('should return one project', async () => {
-      const result = await service.user_project(1, 1);
+      const result = await service.user_project(uid, id);
       expect(prisma.projects.findUnique).toHaveBeenCalledWith({
-        where: { user_id: 1, id: 1 },
+        where: mockData,
       });
-      expect(result).toEqual(mockData[0]);
+      expect(result).toEqual(mockData);
     });
 
     it('should throw NotFoundException if not found', async () => {
       jest.spyOn(prisma.projects, 'findUnique').mockResolvedValueOnce(null);
 
-      await expect(service.user_project(1, 2)).rejects.toThrow(
+      await expect(service.user_project('wid', 'wid')).rejects.toThrow(
         NotFoundException,
       );
     });

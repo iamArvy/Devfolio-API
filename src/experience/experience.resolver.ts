@@ -12,15 +12,15 @@ export class ExperienceResolver {
 
   @Query(() => [ExperienceEntity], { name: 'experiences' })
   async getExperiences(
-    @Context() req: { user: number },
+    @Context() req: { user: string },
   ): Promise<experiences[]> {
     return await this.experienceService.user_experiences(req.user);
   }
 
   @Query(() => ExperienceEntity, { name: 'experience' })
   async getExperience(
-    @Context() req: { user: number },
-    @Args('id') id: number,
+    @Context() req: { user: string },
+    @Args('id') id: string,
   ): Promise<experiences> {
     return await this.experienceService.user_experience(req.user, id);
   }

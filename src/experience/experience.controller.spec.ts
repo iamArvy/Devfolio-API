@@ -1,3 +1,4 @@
+import { id, mockArray, mockData, req, uid } from '../data/mock';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ExperienceService } from './experience.service';
 import { ExperienceController } from './experience.controller';
@@ -6,15 +7,9 @@ describe('ExperienceController', () => {
   let service: ExperienceService;
   let controller: ExperienceController;
 
-  const mockData = [
-    {
-      id: 1,
-    },
-  ];
-
   const mockService = {
-    user_experiences: jest.fn().mockResolvedValue(mockData),
-    user_experience: jest.fn().mockResolvedValue(mockData[0]),
+    user_experiences: jest.fn().mockResolvedValue(mockArray),
+    user_experience: jest.fn().mockResolvedValue(mockData),
   };
 
   beforeEach(async () => {
@@ -37,16 +32,14 @@ describe('ExperienceController', () => {
   });
 
   it('should return all experiences for a user', async () => {
-    const req = { user: 1 };
     const result = await controller.getExperiences(req);
-    expect(service.user_experiences).toHaveBeenCalledWith(1);
-    expect(result).toEqual(mockData);
+    expect(service.user_experiences).toHaveBeenCalledWith(uid);
+    expect(result).toEqual(mockArray);
   });
 
   it('should return a single experience for a user', async () => {
-    const req = { user: 1 };
-    const result = await controller.getExperience(req, 1);
-    expect(service.user_experience).toHaveBeenCalledWith(1, 1);
-    expect(result).toEqual(mockData[0]);
+    const result = await controller.getExperience(req, id);
+    expect(service.user_experience).toHaveBeenCalledWith(uid, id);
+    expect(result).toEqual(mockData);
   });
 });

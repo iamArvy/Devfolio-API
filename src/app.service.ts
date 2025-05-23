@@ -4,7 +4,7 @@ import { PrismaService } from './prisma/prisma.service';
 @Injectable()
 export class AppService {
   constructor(private readonly prisma: PrismaService) {}
-  async validateClient(id: string, secret: string): Promise<bigint> {
+  async validateClient(id: string, secret: string): Promise<string> {
     const client = await this.prisma.clients.findFirst({
       where: { id, secret },
     });

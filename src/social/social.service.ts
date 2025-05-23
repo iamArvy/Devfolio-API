@@ -6,7 +6,7 @@ import { PrismaService } from '../prisma/prisma.service';
 export class SocialService {
   constructor(private readonly prisma: PrismaService) {}
 
-  user_socials = async (id: number): Promise<socials[]> => {
+  user_socials = async (id: string): Promise<socials[]> => {
     const socials = await this.prisma.socials.findMany({
       where: { user_id: id },
     });
@@ -14,7 +14,7 @@ export class SocialService {
     return socials;
   };
 
-  user_social = async (uid: number, sid: number): Promise<socials> => {
+  user_social = async (uid: string, sid: string): Promise<socials> => {
     const social = await this.prisma.socials.findUnique({
       where: { user_id: uid, id: sid },
     });

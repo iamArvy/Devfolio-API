@@ -2,10 +2,10 @@ import { ObjectType, Field, Int } from '@nestjs/graphql';
 
 @ObjectType()
 export class ProjectEntity {
-  @Field(() => Int, {
+  @Field(() => String, {
     description: 'Unique identifier for the project',
   })
-  id: number;
+  id: string;
 
   @Field(() => String, { description: 'Name of the project' })
   name: string;
@@ -40,8 +40,8 @@ export class ProjectEntity {
   })
   tags: string[];
 
-  @Field(() => Int, { description: 'ID of the associated user' })
-  user_id: number;
+  @Field(() => String, { description: 'ID of the associated user' })
+  user_id: string;
 
   @Field(() => Date, {
     nullable: true,

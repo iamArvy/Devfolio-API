@@ -2,10 +2,10 @@ import { ObjectType, Field, Int } from '@nestjs/graphql';
 
 @ObjectType()
 export class SocialEntity {
-  @Field(() => Int, {
+  @Field(() => String, {
     description: 'Unique identifier for the social profile',
   })
-  id: number;
+  id: string;
 
   @Field(() => String, {
     description: 'Name of the social platform (e.g., Twitter, GitHub)',
@@ -29,8 +29,8 @@ export class SocialEntity {
   })
   icon: string | null;
 
-  @Field(() => Int, { description: 'ID of the associated user' })
-  user_id: number;
+  @Field(() => String, { description: 'ID of the associated user' })
+  user_id: string;
 
   @Field(() => Date, {
     nullable: true,

@@ -3,15 +3,15 @@ import { ExperienceResolver } from './experience.resolver';
 import { ExperienceService } from './experience.service';
 import { GqlAuthGuard } from '../guards/gql-auth.guard';
 import { Reflector } from '@nestjs/core';
+import { id, mockArray, mockData, req, uid } from '../data';
 
 describe('ExperienceResolver', () => {
   let resolver: ExperienceResolver;
   let service: ExperienceService;
 
-  const mockData = [{ id: 1 }];
   const mockService = {
-    user_experiences: jest.fn().mockResolvedValue(mockData),
-    user_experience: jest.fn().mockResolvedValue(mockData[0]),
+    user_experiences: jest.fn().mockResolvedValue(mockArray),
+    user_experience: jest.fn().mockResolvedValue(mockData),
   };
 
   beforeEach(async () => {
@@ -31,16 +31,14 @@ describe('ExperienceResolver', () => {
   });
 
   it('should return all experiences for a user', async () => {
-    const context = { user: 1 };
-    const result = await resolver.getExperiences(context);
-    expect(service.user_experiences).toHaveBeenCalledWith(1);
-    expect(result).toEqual(mockData);
+    const result = await resolver.getExperiences(req);
+    expect(service.user_experiences).toHaveBeenCalledWith(uid);
+    expect(result).toEqual(mockArray);
   });
 
-  it('should return one experience for a user', async () => {
-    const context = { user: 1 };
-    const result = await resolver.getExperience(context, 1);
-    expect(service.user_experience).toHaveBeenCalledWith(1, 1);
-    expect(result).toEqual(mockData[0]);
+  it('should return a single experience for a user', async () => {
+    const result = await resolver.getExperience(req, id);
+    expect(service.user_experience).toHaveBeenCalledWith(uid, id);
+    expect(result).toEqual(mockData);
   });
 });

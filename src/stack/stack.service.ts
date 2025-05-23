@@ -6,7 +6,7 @@ import { PrismaService } from '../prisma/prisma.service';
 export class StackService {
   constructor(private readonly prisma: PrismaService) {}
 
-  user_stacks = async (id: number): Promise<stacks[]> => {
+  user_stacks = async (id: string): Promise<stacks[]> => {
     const stacks = await this.prisma.stacks.findMany({
       where: { user_id: id },
     });
@@ -14,7 +14,7 @@ export class StackService {
     return stacks;
   };
 
-  user_stack = async (uid: number, sid: number): Promise<stacks> => {
+  user_stack = async (uid: string, sid: string): Promise<stacks> => {
     const stack = await this.prisma.stacks.findUnique({
       where: { user_id: uid, id: sid },
     });

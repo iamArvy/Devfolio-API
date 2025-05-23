@@ -2,16 +2,15 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ProfileService } from './profile.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { NotFoundException } from '@nestjs/common';
+import { mockData, uid } from '../data';
 
 describe('ProfileService', () => {
   let service: ProfileService;
   let prisma: PrismaService;
 
-  const mockProfile = { id: 1 };
-
   const mockPrismaService = {
     profiles: {
-      findUnique: jest.fn().mockResolvedValue(mockProfile),
+      findUnique: jest.fn().mockResolvedValue(mockData),
     },
   };
 
@@ -33,16 +32,18 @@ describe('ProfileService', () => {
 
   describe('user_profile', () => {
     it('should return the user profile', async () => {
-      const result = await service.user_profile(1);
+      const result = await service.user_profile(uid);
       expect(prisma.profiles.findUnique).toHaveBeenCalledWith({
-        where: { user_id: 1 },
+        where: { user_id: uid },
       });
-      expect(result).toEqual(mockProfile);
+      expect(result).toEqual(mockData);
     });
 
     it('should throw NotFoundException if not found', async () => {
       jest.spyOn(prisma.profiles, 'findUnique').mockResolvedValueOnce(null);
-      await expect(service.user_profile(2)).rejects.toThrow(NotFoundException);
+      await expect(service.user_profile('wid')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 });

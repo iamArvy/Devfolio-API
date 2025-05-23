@@ -6,7 +6,7 @@ import { PrismaService } from '../prisma/prisma.service';
 export class ProfileService {
   constructor(private readonly prisma: PrismaService) {}
 
-  user_profile = async (id: number): Promise<profiles> => {
+  user_profile = async (id: string): Promise<profiles> => {
     const profile = await this.prisma.profiles.findUnique({
       where: { user_id: id },
     });

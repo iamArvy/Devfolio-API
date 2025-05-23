@@ -11,14 +11,14 @@ export class StackController {
   constructor(private readonly stackService: StackService) {}
 
   @Get('stacks')
-  async getStacks(@Req() req: { user: number }): Promise<stacks[]> {
+  async getStacks(@Req() req: { user: string }): Promise<stacks[]> {
     return await this.stackService.user_stacks(req.user);
   }
 
   @Get('stacks/:id')
   async getStack(
-    @Req() req: { user: number },
-    @Param('id') id: number,
+    @Req() req: { user: string },
+    @Param('id') id: string,
   ): Promise<stacks> {
     return await this.stackService.user_stack(req.user, id);
   }

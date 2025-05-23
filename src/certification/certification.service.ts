@@ -6,7 +6,7 @@ import { PrismaService } from '../prisma/prisma.service';
 export class CertificationService {
   constructor(private readonly prisma: PrismaService) {}
 
-  user_certifications = async (id: number): Promise<certifications[]> => {
+  user_certifications = async (id: string): Promise<certifications[]> => {
     const certifications = await this.prisma.certifications.findMany({
       where: { user_id: id },
     });
@@ -15,8 +15,8 @@ export class CertificationService {
   };
 
   user_certification = async (
-    uid: number,
-    cid: number,
+    uid: string,
+    cid: string,
   ): Promise<certifications> => {
     const certification = await this.prisma.certifications.findUnique({
       where: { user_id: uid, id: cid },

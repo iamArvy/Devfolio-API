@@ -2,18 +2,18 @@ import { ObjectType, Field, Int } from '@nestjs/graphql';
 
 @ObjectType()
 export class ExperienceEntity {
-  @Field(() => Int, {
+  @Field(() => String, {
     description: 'Unique identifier for the experience',
   })
-  id: number;
+  id: string;
 
   @Field(() => String, {
     description: 'Location where the experience took place',
   })
   location: string;
 
-  @Field(() => Int, { description: 'ID of the associated user' })
-  user_id: number;
+  @Field(() => String, { description: 'ID of the associated user' })
+  user_id: string;
 
   @Field(() => String, { description: 'Role or position held' })
   role: string;

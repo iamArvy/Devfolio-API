@@ -6,7 +6,7 @@ import { PrismaService } from '../prisma/prisma.service';
 export class ExperienceService {
   constructor(private readonly prisma: PrismaService) {}
 
-  user_experiences = async (id: number): Promise<experiences[]> => {
+  user_experiences = async (id: string): Promise<experiences[]> => {
     const experiences = await this.prisma.experiences.findMany({
       where: { user_id: id },
     });
@@ -14,7 +14,7 @@ export class ExperienceService {
     return experiences;
   };
 
-  user_experience = async (uid: number, eid: number): Promise<experiences> => {
+  user_experience = async (uid: string, eid: string): Promise<experiences> => {
     const experience = await this.prisma.experiences.findUnique({
       where: { user_id: uid, id: eid },
     });

@@ -2,17 +2,16 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { StackService } from './stack.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { NotFoundException } from '@nestjs/common';
+import { mockArray, mockData, id, uid } from '../data';
 
 describe('StackService', () => {
   let service: StackService;
   let prisma: PrismaService;
 
-  const mockData = [{ id: 1 }];
-
   const mockPrismaService = {
     stacks: {
-      findMany: jest.fn().mockResolvedValue(mockData),
-      findUnique: jest.fn().mockResolvedValue(mockData[0]),
+      findMany: jest.fn().mockResolvedValue(mockArray),
+      findUnique: jest.fn().mockResolvedValue(mockData),
     },
   };
 
@@ -34,27 +33,29 @@ describe('StackService', () => {
 
   describe('user_stacks', () => {
     it('should return all stacks for a user', async () => {
-      const result = await service.user_stacks(1);
+      const result = await service.user_stacks(uid);
       expect(prisma.stacks.findMany).toHaveBeenCalledWith({
-        where: { user_id: 1 },
+        where: { user_id: uid },
       });
-      expect(result).toEqual(mockData);
+      expect(result).toEqual(mockArray);
     });
   });
 
   describe('user_stack', () => {
     it('should return one stack', async () => {
-      const result = await service.user_stack(1, 1);
+      const result = await service.user_stack(uid, id);
       expect(prisma.stacks.findUnique).toHaveBeenCalledWith({
-        where: { user_id: 1, id: 1 },
+        where: mockData,
       });
-      expect(result).toEqual(mockData[0]);
+      expect(result).toEqual(mockData);
     });
 
     it('should throw NotFoundException if not found', async () => {
       jest.spyOn(prisma.stacks, 'findUnique').mockResolvedValueOnce(null);
 
-      await expect(service.user_stack(1, 2)).rejects.toThrow(NotFoundException);
+      await expect(service.user_stack('wid', 'wid')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 });

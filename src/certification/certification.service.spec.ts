@@ -2,21 +2,16 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CertificationService } from './certification.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { NotFoundException } from '@nestjs/common';
+import { id, mockArray, mockData, uid } from '../data';
 
 describe('CertificationService', () => {
   let service: CertificationService;
   let prisma: PrismaService;
 
-  const mockData = [
-    {
-      id: 1,
-    },
-  ];
-
   const mockPrismaService = {
     certifications: {
-      findMany: jest.fn().mockResolvedValue(mockData),
-      findUnique: jest.fn().mockResolvedValue(mockData[0]),
+      findMany: jest.fn().mockResolvedValue(mockArray),
+      findUnique: jest.fn().mockResolvedValue(mockData),
     },
   };
 
@@ -38,21 +33,21 @@ describe('CertificationService', () => {
 
   describe('user_certifications', () => {
     it('should return all certifications for a user', async () => {
-      const result = await service.user_certifications(1);
+      const result = await service.user_certifications(uid);
       expect(prisma.certifications.findMany).toHaveBeenCalledWith({
-        where: { user_id: 1 },
+        where: { user_id: uid },
       });
-      expect(result).toEqual(mockData);
+      expect(result).toEqual(mockArray);
     });
   });
 
   describe('user_certification', () => {
     it('should return a specific certification for a user', async () => {
-      const result = await service.user_certification(1, 1);
+      const result = await service.user_certification(uid, id);
       expect(prisma.certifications.findUnique).toHaveBeenCalledWith({
-        where: { user_id: 1, id: 1 },
+        where: mockData,
       });
-      expect(result).toEqual(mockData[0]);
+      expect(result).toEqual(mockData);
     });
 
     it('should throw NotFoundException if certification not found', async () => {
@@ -60,9 +55,9 @@ describe('CertificationService', () => {
         .spyOn(prisma.certifications, 'findUnique')
         .mockResolvedValueOnce(null);
 
-      await expect(service.user_certification(1, 2)).rejects.toThrow(
-        NotFoundException,
-      );
+      await expect(
+        service.user_certification('wronguid', 'wrongcid'),
+      ).rejects.toThrow(NotFoundException);
     });
   });
 });

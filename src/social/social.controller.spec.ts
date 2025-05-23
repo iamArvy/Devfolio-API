@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SocialController } from './social.controller';
 import { SocialService } from './social.service';
+import { mockArray, mockData, id, uid, req } from '../data';
 
 describe('SocialController', () => {
   let controller: SocialController;
   let service: SocialService;
 
-  const mockData = [{ id: 1 }];
   const mockService = {
-    user_socials: jest.fn().mockResolvedValue(mockData),
-    user_social: jest.fn().mockResolvedValue(mockData[0]),
+    user_socials: jest.fn().mockResolvedValue(mockArray),
+    user_social: jest.fn().mockResolvedValue(mockData),
   };
 
   beforeEach(async () => {
@@ -27,16 +27,14 @@ describe('SocialController', () => {
   });
 
   it('should return all socials for a user', async () => {
-    const req = { user: 1 };
     const result = await controller.getSocials(req);
-    expect(service.user_socials).toHaveBeenCalledWith(1);
-    expect(result).toEqual(mockData);
+    expect(service.user_socials).toHaveBeenCalledWith(uid);
+    expect(result).toEqual(mockArray);
   });
 
   it('should return one social for a user', async () => {
-    const req = { user: 1 };
-    const result = await controller.getSocial(req, 1);
-    expect(service.user_social).toHaveBeenCalledWith(1, 1);
-    expect(result).toEqual(mockData[0]);
+    const result = await controller.getSocial(req, id);
+    expect(service.user_social).toHaveBeenCalledWith(uid, id);
+    expect(result).toEqual(mockData);
   });
 });

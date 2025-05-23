@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { StackController } from './stack.controller';
 import { StackService } from './stack.service';
+import { mockArray, mockData, id, uid, req } from '../data';
 
 describe('StackController', () => {
   let controller: StackController;
   let service: StackService;
 
-  const mockData = [{ id: 1 }];
   const mockService = {
-    user_stacks: jest.fn().mockResolvedValue(mockData),
-    user_stack: jest.fn().mockResolvedValue(mockData[0]),
+    user_stacks: jest.fn().mockResolvedValue(mockArray),
+    user_stack: jest.fn().mockResolvedValue(mockData),
   };
 
   beforeEach(async () => {
@@ -27,16 +27,14 @@ describe('StackController', () => {
   });
 
   it('should return all stacks for a user', async () => {
-    const req = { user: 1 };
     const result = await controller.getStacks(req);
-    expect(service.user_stacks).toHaveBeenCalledWith(1);
-    expect(result).toEqual(mockData);
+    expect(service.user_stacks).toHaveBeenCalledWith(uid);
+    expect(result).toEqual(mockArray);
   });
 
   it('should return one stack for a user', async () => {
-    const req = { user: 1 };
-    const result = await controller.getStack(req, 1);
-    expect(service.user_stack).toHaveBeenCalledWith(1, 1);
-    expect(result).toEqual(mockData[0]);
+    const result = await controller.getStack(req, id);
+    expect(service.user_stack).toHaveBeenCalledWith(uid, id);
+    expect(result).toEqual(mockData);
   });
 });
