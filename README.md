@@ -35,8 +35,8 @@ The **Devfolio API Client** is an API client built with **NestJS**, supporting b
 ### Installation
 
 ```bash
-git clone https://github.com/iamArvy/devfolio-api.git
-cd devfolio-api
+git clone https://github.com/iamArvy/devfolio-client.git
+cd devfolio-client
 pnpm install
 ```
 
@@ -71,7 +71,7 @@ docker-compose up --build
 ## 🗃️ Folder Structure (Simplified)
 
 ```
-chat-service/
+devfolio-client/
 ├── prisma/              #Contains prisma schema and migrations
 ├── src/
 │   ├── certification/   # Certification logic, controller, resolver etc
